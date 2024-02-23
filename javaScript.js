@@ -20,7 +20,7 @@ let tarefa = [];
 //     }
 //   }
 // }
-
+//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 function inserir() {
   const trf = window.prompt("Digite sua tarefa");
   const li = document.createElement("li");
