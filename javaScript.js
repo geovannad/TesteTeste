@@ -1,65 +1,89 @@
 const tag = document.getElementsByTagName("ul")[0];
-let tarefa = [];
-// localStorage.setItem(tarefa);
+let listaTarefa = [];
+const persistir = {};
+// localStorage.setItem(listaTarefa);
+//ele só expira quando limpar o bufer
+//session storage => expira se fechar a janela
 
 // function addTarefa() {
-//   const trf = window.prompt("Digite a tarefa");
-//   tarefa.push(trf);
+//   const trf = window.prompt("Digite a listaTarefa");
+//   listaTarefa.push(trf);
 //   let t;
 //   tag.innerHTML += `<li>${trf}</li>`;
 // }
 
 // function retirar() {
-//   const retirada = window.prompt("Digite a tarefa que deseja retirar?");
-//   let indice = tarefa.indexOf(retirada);
+//   const retirada = window.prompt("Digite a listaTarefa que deseja retirar?");
+//   let indice = listaTarefa.indexOf(retirada);
 //   if (indice != -1) {
-//     tarefa.splice(indice, 1);
+//     listaTarefa.splice(indice, 1);
 //     tag.innerHTML = " ";
-//     for (i = 0; i < tarefa.length; i++) {
-//       tag.innerHTML += `<li>${tarefa[i]}</li>`;
+//     for (i = 0; i < listaTarefa.length; i++) {
+//       tag.innerHTML += `<li>${listaTarefa[i]}</li>`;
 //     }
 //   }
 // }
 //AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+function persistirTarefas() {
+  const concluidas = document.getElementsByTagName("del");
+  let concluidasConteudo = [];
+  let naoConcluida = [];
+  for (let i = 0; i < concluidas.length; i++) {
+    concluidasConteudo.push(concluidas[i].innerText);
+    for (let j = 0; j < listaTarefa.length; j++) {
+      if (listaTarefa[j].textContent != concluidas[i].innerText) {
+        naoConcluida.push(listaTarefa[j].textContent);
+      }
+    }
+  }
+  localStorage.setItem("concluida", JSON.stringify(concluidasConteudo));
+  localStorage.setItem("nãoConcluida", JSON.stringify(naoConcluida));
+}
+
+function recriarTela (){
+  const concluida = JSON.parse(localStorage.getItem("concluida"))
+  const concluidaNao = JSON.parse(localStorage.getItem("nãoConcluida"))
+}
+
 function inserir() {
-  const trf = window.prompt("Digite sua tarefa");
+  const trf = window.prompt("Digite sua listaTarefa");
   const li = document.createElement("li");
   li.innerText = trf;
   tag.appendChild(li);
-  tarefa.push(li);
+  listaTarefa.push(li);
 }
 function retirar() {
-  console.log(tarefa);
-  const retirada = window.prompt("Digite a tarefa que deseja retirar?");
-  for (let i = 0; i < tarefa.length; i++) {
-    if (tarefa[i].innerText == retirada) {
-      tarefa[i].remove();
+  console.log(listaTarefa);
+  const retirada = window.prompt("Digite a listaTarefa que deseja retirar?");
+  for (let i = 0; i < listaTarefa.length; i++) {
+    if (listaTarefa[i].innerText == retirada) {
+      listaTarefa[i].remove();
     }
   }
 }
 function concluir() {
-  const concluir = window.prompt("Digite a tarefa que deseja concluir?");
-  for (let i = 0; i < tarefa.length; i++) {
-    if (tarefa[i].innerText == concluir) {
+  const concluir = window.prompt("Digite a listaTarefa que deseja concluir?");
+  for (let i = 0; i < listaTarefa.length; i++) {
+    if (listaTarefa[i].innerText == concluir) {
       console.log("t");
-      tarefa[i].remove();
-      tarefa.splice(i, 1);
+      listaTarefa[i].remove();
+      listaTarefa.splice(i, 1);
       const li = document.createElement("li");
       const del = document.createElement("del");
       del.textContent = concluir;
       li.appendChild(del);
       tag.appendChild(li);
-      tarefa.push(li);
+      listaTarefa.push(li);
     }
   }
 }
 
 function editarTarefa() {
-  const editar = window.prompt("Digite o nome da tarefa a ser editada: ");
-  for (let i = 0; i < tarefa.length; i++) {
-    if (tarefa[i].innerText == editar) {
+  const editar = window.prompt("Digite o nome da listaTarefa a ser editada: ");
+  for (let i = 0; i < listaTarefa.length; i++) {
+    if (listaTarefa[i].innerText == editar) {
       const alteracao = window.prompt("Digite a modificação a ser feita: ");
-      tarefa[i].textContent = alteracao.trim();
+      listaTarefa[i].textContent = alteracao.trim();
     }
   }
 }
