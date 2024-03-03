@@ -1,25 +1,343 @@
-//listas
-const dias = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta"];
+//VARIAVEIS GLOBAIS 
+const dias = ["segunda", "terça", "quarta", "quinta", "sexta"];
 const horarios = ["15h", "16h", "17h", "18h", "19h"];
-const listaTr = document.getElementsByTagName("tr")[1];
-console.log(listaTr);
-const a = listaTr.children;
-console.log(a);
+const listaTr = document.getElementsByTagName("tr");
+let listaTarefa = []
+let listaDia = []
+let listaHorario = []
 
-//função para adicionar a tarefa
-function inserirTarefa(tarefa, dia, horario) {
-  //validações
-  // const diaV = dias.includes(dia);
-  // const horarioV = horarios.includes(horario);
-  const diaV = dias.indexOf(dia);
-  const horarioV = horarios.indexOf(horario);
+menu()
+//FUNÇÃO MENU
+function menu(){
+  const escolha = window.prompt(`
+    [0] - Sair 
+    [1] - Inserir tarefa
+    [2] - Remover tarefa 
+    [3] - Alterar tarefa
+    [4] - Trocar tarefa
+    [5] - Persistir
+  `)
 
-  // adicionando
-  if (!diaV >= 0) {
-    window.alert("Insira apenas dias da semana");
-    dia = pedirDia();
-    inserirTarefa(tarefa, dia, horario);
+  //CHAMANDO OPÇÕES DO MENU
+  if(escolha == 0){
+    return;
+  }else if (escolha == 1){
+    inserirTarefa()
+    setTimeout(()=>{menu()}, 500)
+  }else if (escolha == 2){
+    removerTarefa();
+    setTimeout(()=>{menu()}, 500)
+  }else if (escolha == 3){
+    alterarTarefa()
+    setTimeout(()=>{menu()}, 500)
+  }else if (escolha == 4){
+    trocarTarefa()
+    setTimeout(()=>{menu()}, 500)
+  }else if (escolha == 5){
+    setTimeout(()=>{menu()}, 500)
   }
-  // terminar validações
-  listaTr[horarioV++];
+}
+
+
+
+//FUNÇÃO PARA ADD TAREFA
+function inserirTarefa() {
+  //PEGANDO INFORMAÇÕES 
+
+  //DIA
+  let dia = window.prompt('Qual dia da semana você deseja adicionar sua tarefa?')
+  let diaPosicao = dias.indexOf(dia.toLowerCase());
+  while(diaPosicao < 0){
+    window.alert("Insira apenas dias da semana");
+    dia = window.prompt('Qual dia da semana você deseja adicionar sua tarefa?')
+    diaPosicao = dias.indexOf(dia.toLowerCase());
+  }
+
+
+  //HORÁRIO
+  let horario = window.prompt('Em qual horario ?')
+  let horarioPosicao = horarios.indexOf(horario.toLowerCase());
+  while((horarioPosicao < 0)){
+    window.alert("Insira um horário que esteja no calendário e não se esqueça do (h)");
+    horario = window.prompt('Em qual horario ?')
+    horarioPosicao = horarios.indexOf(horario.toLowerCase());
+  }
+
+  //TAREFA
+  const tarefa = window.prompt(' Por fim, qual tarefa você deseja adicionar? ')
+
+  //ADICIONANDO
+  horarioPosicao += 1
+  diaPosicao += 1
+  listaTr[horarioPosicao].children[diaPosicao].textContent = tarefa
+  listaDia.push(diaPosicao)
+  listaHorario.push(horarioPosicao)
+  listaTarefa.push(tarefa)
+  
+  //CONTINUAR
+  let continuar = window.prompt(`
+    DESEJA CONTINUAR ADICIONANDO TAREFA?
+    [1] - Sim
+    [0] - Não
+  `)
+  while(continuar > "1" || continuar < "0"){
+    window.alert('Opção Invalida!')
+    continuar = window.prompt(`
+      DESEJA CONTINUAR ADICIONANDO TAREFA?
+      [1] - Sim
+      [0] - Não
+    `)
+  }
+  if(continuar == "1"){
+    inserirTarefa()
+  }
+} 
+
+//FUNÇÃO DE REMOVER TAREFA
+function removerTarefa(){
+  console.log(listaTarefa)
+  const tarefa = window.prompt('Qual tarefa você deseja remover? ')
+  
+  //ESCOLHA PARA REMOVER A TAREFA
+  let escolha = window.prompt(`
+  Você deseja remover todas as tarefas com essa informação: ` + tarefa + ` ou remover só uma? 
+  [1] - Todas as tarefas
+  [2] - Só uma tarefa`)
+  while(escolha > "2" || escolha < "1"){
+    window.alert('Opção Invalida!')
+    escolha = window.prompt(`
+    Você deseja remover todas as tarefas com essa informação: ` + tarefa + ` ou remover só uma? 
+    [1] - Todas as tarefas
+    [2] - Só uma tarefa
+    `)
+  }
+  if(escolha == 1){
+    //TODAS AS TAREFAS QUE TIVEREM O MESMO NOME
+    for(let h = 1; h < horarios.length; h++){
+      for(let d = 1; d < dias.length; d++){
+        if(listaTr[h].children[d].textContent == tarefa){
+          //REMOVENDO JS
+          for(let indice = 0; indice < listaTarefa.length; indice++){
+            if(listaTarefa[indice] == tarefa){
+              listaTarefa.splice(i, 1) 
+              listaDia.splice(i, 1)
+              listaHorario.splice(i, 1)
+            }
+          }
+          
+          
+          //REMOVENDO
+          console.log(listaTr[h].children[d].textContent)
+          listaTr[h].children[d].textContent = null
+          
+        }
+      }
+    }
+  }else{
+
+    //UMA TAREFA SÓ
+    //DIA
+    let dia = window.prompt('Qual dia da semana você deseja remover sua tarefa?')
+    let diaPosicao = dias.indexOf(dia.toLowerCase());
+    while(diaPosicao < 0){
+      window.alert("Insira apenas dias da semana");
+      dia = window.prompt('Qual dia da semana você deseja remover sua tarefa?')
+      diaPosicao = dias.indexOf(dia.toLowerCase());
+    }
+
+
+    //HORÁRIO
+    let horario = window.prompt('Em qual horario ?')
+    let horarioPosicao = horarios.indexOf(horario.toLowerCase());
+    while((horarioPosicao < 0)){
+      window.alert("Insira um horário que esteja no calendário e não se esqueça do (h)");
+      horario = window.prompt('Em qual horario ?')
+      horarioPosicao = horarios.indexOf(horario.toLowerCase());
+    }
+    horarioPosicao += 1
+    diaPosicao += 1
+    //REMOVENDO JS
+    const i = listaTarefa.indexOf(tarefa)
+    if(i >= 0){
+      listaTarefa.splice(i, 1) 
+      listaDia.splice(i, 1)
+      listaHorario.splice(i, 1)
+      //REMOVENDO
+      listaTr[horarioPosicao].children[diaPosicao].textContent = null
+    }
+  }
+
+  let continuar = window.prompt(`
+  DESEJA CONTINUAR REMOVENDO TAREFA?
+  [1] - Sim
+  [0] - Não
+`)
+while(continuar > "1" || continuar < "0"){
+  window.alert('Opção Invalida!')
+  continuar = window.prompt(`
+    DESEJA CONTINUAR REMMOVENDO TAREFA?
+    [1] - Sim
+    [0] - Não
+  `)
+}
+if(continuar == "1"){
+  removerTarefa()
+}
+console.log(listaTarefa)
+}
+
+//FUNÇÃO PARA ALTERAR TAREFA
+function alterarTarefa(){
+  console.log(listaTarefa)
+  const tarefa = window.prompt('Qual tarefa você deseja alterar? ')
+  const mudarTarefa = window.prompt('Qual modificação a ser feita?  ')
+  
+  //ESCOLHA PARA ALTERAR A TAREFA
+  let escolha = window.prompt(`
+  Você deseja alterar todas as tarefas com essa informação: ` + tarefa + ` ou alterar só uma? 
+  [1] - Todas as tarefas
+  [2] - Só uma tarefa`)
+  while(escolha > "2" || escolha < "1"){
+    window.alert('Opção Invalida!')
+    escolha = window.prompt(`
+    Você deseja alterar todas as tarefas com essa informação: ` + tarefa + ` ou alterar só uma? 
+    [1] - Todas as tarefas
+    [2] - Só uma tarefa
+    `)
+  }
+  if(escolha == 1){
+    //TODAS AS TAREFAS QUE TIVEREM O MESMO NOME
+    for(let h = 1; h < horarios.length; h++){
+      for(let d = 1; d < dias.length; d++){
+        if(listaTr[h].children[d].textContent == tarefa){
+          //REMOVENDO JS
+          for(let j = 0; j < listaTarefa.length; j++ ){
+            if(listaTarefa[j] == tarefa){
+              listaTarefa[j] = mudarTarefa
+            }
+          }
+          //REMOVENDO
+          listaTr[h].children[d].textContent = mudarTarefa
+        }
+      }
+    }
+  }else{
+
+    //UMA TAREFA SÓ
+    //DIA
+    let dia = window.prompt('Qual dia da semana você deseja remover sua tarefa?')
+    let diaPosicao = dias.indexOf(dia.toLowerCase());
+    while(diaPosicao < 0){
+      window.alert("Insira apenas dias da semana");
+      dia = window.prompt('Qual dia da semana você deseja remover sua tarefa?')
+      diaPosicao = dias.indexOf(dia.toLowerCase());
+    }
+
+
+    //HORÁRIO
+    let horario = window.prompt('Em qual horario ?')
+    let horarioPosicao = horarios.indexOf(horario.toLowerCase());
+    while((horarioPosicao < 0)){
+      window.alert("Insira um horário que esteja no calendário e não se esqueça do (h)");
+      horario = window.prompt('Em qual horario ?')
+      horarioPosicao = horarios.indexOf(horario.toLowerCase());
+    }
+    horarioPosicao += 1
+    diaPosicao += 1
+    //REMOVENDO JS
+    for(let j = 0; j < listaTarefa.length; j++ ){
+      if(listaTarefa[j] == tarefa){
+        listaTarefa[j] = mudarTarefa
+      }
+    }
+      //REMOVENDO
+      listaTr[horarioPosicao].children[diaPosicao].textContent = mudarTarefa
+    
+  }
+
+  let continuar = window.prompt(`
+  DESEJA CONTINUAR ALTERANDO TAREFA?
+  [1] - Sim
+  [0] - Não
+`)
+while(continuar > "1" || continuar < "0"){
+  window.alert('Opção Invalida!')
+  continuar = window.prompt(`
+    DESEJA CONTINUAR ALTERANDO TAREFA?
+    [1] - Sim
+    [0] - Não
+  `)
+}
+if(continuar == "1"){
+  alterarTarefa()
+}
+console.log(listaTarefa)
+}
+
+//FUNÇÃO TROCAR TAREFA 
+function trocarTarefa(){
+  //PEGANDO INFORMAÇÕES 
+
+  //DIA
+  let dia = window.prompt('Qual dia da semana você deseja trocar sua tarefa?')
+  let diaPosicao = dias.indexOf(dia.toLowerCase());
+  while(diaPosicao < 0){
+    window.alert("Insira apenas dias da semana");
+    dia = window.prompt('Qual dia da semana você deseja trocar sua tarefa?')
+    diaPosicao = dias.indexOf(dia.toLowerCase());
+  }
+
+
+  //HORÁRIO
+  let horario = window.prompt('Em qual horario ?')
+  let horarioPosicao = horarios.indexOf(horario.toLowerCase());
+  while((horarioPosicao < 0)){
+    window.alert("Insira um horário que esteja no calendário e não se esqueça do (h)");
+    horario = window.prompt('Em qual horario ?')
+    horarioPosicao = horarios.indexOf(horario.toLowerCase());
+  }
+  
+  //DIA MUDAR
+  let diaM = window.prompt('Para qual dia da semana você deseja mudar?')
+  let diaPosicaoM = dias.indexOf(diaM.toLowerCase());
+  while(diaPosicaoM < 0){
+    window.alert("Insira apenas dias da semana");
+    diaM = window.prompt('Para qual dia da semana você deseja mudar?')
+    diaPosicaoM = dias.indexOf(diaM.toLowerCase());
+  }
+
+
+  //HORÁRIO MUAR
+  let horarioM = window.prompt('Em qual horario ?')
+  let horarioPosicaoM = horarios.indexOf(horarioM.toLowerCase());
+  while((horarioPosicao < 0)){
+    window.alert("Insira um horário que esteja no calendário e não se esqueça do (h)");
+    horarioM = window.prompt('Em qual horario ?')
+    horarioPosicaoM = horarios.indexOf(horarioM.toLowerCase());
+  }
+
+    //trocando
+    diaPosicao += 1
+    diaPosicaoM += 1
+    horarioPosicao += 1
+    horarioPosicaoM += 1
+    for(let d = 1; d < listaDia.length; d++){
+      if(listaDia[d] == diaPosicao && listaHorario[d] == horarioPosicao){
+        //MUDANDO
+        const tarefa = listaTr[h].children[d].textContent
+        listaTr[h].children[d].textContent = null
+        listaTr[horarioPosicaoM].children[diaPosicaoM].textContent = tarefa
+         //MUDANDO JS
+         listaDia[d] = diaPosicaoM
+         listaHorario[d] = horarioPosicaoM
+
+      }
+    }
+  
+
+
+
+
+ 
+
 }
