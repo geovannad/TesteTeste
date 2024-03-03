@@ -2,28 +2,6 @@ const tag = document.getElementsByTagName("ul")[0];
 let listaTarefa = [];
 const persistir = {};
 // localStorage.setItem(listaTarefa);
-//ele só expira quando limpar o bufer
-//session storage => expira se fechar a janela
-
-// function addTarefa() {
-//   const trf = window.prompt("Digite a listaTarefa");
-//   listaTarefa.push(trf);
-//   let t;
-//   tag.innerHTML += `<li>${trf}</li>`;
-// }
-
-// function retirar() {
-//   const retirada = window.prompt("Digite a listaTarefa que deseja retirar?");
-//   let indice = listaTarefa.indexOf(retirada);
-//   if (indice != -1) {
-//     listaTarefa.splice(indice, 1);
-//     tag.innerHTML = " ";
-//     for (i = 0; i < listaTarefa.length; i++) {
-//       tag.innerHTML += `<li>${listaTarefa[i]}</li>`;
-//     }
-//   }
-// }
-//AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 function persistirTarefas() {
   const concluidas = document.getElementsByTagName("del");
   let concluidasConteudo = [];
