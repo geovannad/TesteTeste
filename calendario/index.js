@@ -113,26 +113,25 @@ function removerTarefa(){
   }
   if(escolha == 1){
     //TODAS AS TAREFAS QUE TIVEREM O MESMO NOME
-    for(let h = 1; h < horarios.length; h++){
-      for(let d = 1; d < dias.length; d++){
-        if(listaTr[h].children[d].textContent == tarefa){
-          //REMOVENDO JS
-          for(let indice = 0; indice < listaTarefa.length; indice++){
-            if(listaTarefa[indice] == tarefa){
-              listaTarefa.splice(i, 1) 
-              listaDia.splice(i, 1)
-              listaHorario.splice(i, 1)
-            }
-          }
-          
-          
+    for(let h = 0; h < horarios.length; h++){
+      for(let d = 0; d < dias.length; d++){
+        if(listaTr[h].children[d].textContent == tarefa){          
           //REMOVENDO
-          console.log(listaTr[h].children[d].textContent)
           listaTr[h].children[d].textContent = null
           
         }
       }
     }
+    //REMOVENDO JS
+          
+    for(let indice = 0; indice < listaTarefa.length; indice++){
+      if(listaTarefa[indice] == tarefa){
+        listaTarefa.splice(indice, 1) 
+        listaDia.splice(indice, 1)
+        listaHorario.splice(indice, 1)
+      }
+    }
+    
   }else{
 
     //UMA TAREFA SÓ
@@ -157,14 +156,16 @@ function removerTarefa(){
     horarioPosicao += 1
     diaPosicao += 1
     //REMOVENDO JS
-    const i = listaTarefa.indexOf(tarefa)
-    if(i >= 0){
-      listaTarefa.splice(i, 1) 
-      listaDia.splice(i, 1)
-      listaHorario.splice(i, 1)
+    for(let j = 0; j < listaTarefa.length; j++){
+      if(listaHorario[j] == horarioPosicao && listaDia[j] == diaPosicao){
+        listaTarefa.splice(j, 1) 
+        listaDia.splice(j, 1)
+        listaHorario.splice(j, 1)
+      }
+    }
       //REMOVENDO
       listaTr[horarioPosicao].children[diaPosicao].textContent = null
-    }
+    
   }
 
   let continuar = window.prompt(`
@@ -175,7 +176,7 @@ function removerTarefa(){
 while(continuar > "1" || continuar < "0"){
   window.alert('Opção Invalida!')
   continuar = window.prompt(`
-    DESEJA CONTINUAR REMMOVENDO TAREFA?
+    DESEJA CONTINUAR REMOVENDO TAREFA?
     [1] - Sim
     [0] - Não
   `)
@@ -184,6 +185,7 @@ if(continuar == "1"){
   removerTarefa()
 }
 console.log(listaTarefa)
+
 }
 
 //FUNÇÃO PARA ALTERAR TAREFA
@@ -207,18 +209,19 @@ function alterarTarefa(){
   }
   if(escolha == 1){
     //TODAS AS TAREFAS QUE TIVEREM O MESMO NOME
-    for(let h = 1; h < horarios.length; h++){
-      for(let d = 1; d < dias.length; d++){
+    for(let h = 0; h < horarios.length; h++){
+      for(let d = 0; d < dias.length; d++){
         if(listaTr[h].children[d].textContent == tarefa){
-          //REMOVENDO JS
-          for(let j = 0; j < listaTarefa.length; j++ ){
-            if(listaTarefa[j] == tarefa){
-              listaTarefa[j] = mudarTarefa
-            }
-          }
           //REMOVENDO
           listaTr[h].children[d].textContent = mudarTarefa
+          console.log('aaaaaa')
         }
+      }
+    }
+    //REMOVENDO JS
+    for(let j = 0; j < listaTarefa.length; j++ ){
+      if(listaTarefa[j] == tarefa){
+        listaTarefa[j] = mudarTarefa
       }
     }
   }else{
@@ -246,7 +249,7 @@ function alterarTarefa(){
     diaPosicao += 1
     //REMOVENDO JS
     for(let j = 0; j < listaTarefa.length; j++ ){
-      if(listaTarefa[j] == tarefa){
+      if(listaDia[j] == diaPosicao && listaHorario[j] == horarioPosicao){
         listaTarefa[j] = mudarTarefa
       }
     }
@@ -321,18 +324,20 @@ function trocarTarefa(){
     diaPosicaoM += 1
     horarioPosicao += 1
     horarioPosicaoM += 1
-    for(let d = 1; d < listaDia.length; d++){
+    for(let d = 0; d < listaDia.length; d++){
       if(listaDia[d] == diaPosicao && listaHorario[d] == horarioPosicao){
-        //MUDANDO
-        const tarefa = listaTr[h].children[d].textContent
-        listaTr[h].children[d].textContent = null
-        listaTr[horarioPosicaoM].children[diaPosicaoM].textContent = tarefa
          //MUDANDO JS
          listaDia[d] = diaPosicaoM
          listaHorario[d] = horarioPosicaoM
+         console.log(listaDia[d]          )
 
       }
     }
+    //MUDANDO
+    const tarefa = listaTr[horarioPosicao].children[diaPosicao].textContent
+    listaTr[horarioPosicao].children[diaPosicao].textContent = null
+    listaTr[horarioPosicaoM].children[diaPosicaoM].textContent = tarefa
+
   
 
 
