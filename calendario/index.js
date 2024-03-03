@@ -128,7 +128,7 @@ function removerTarefa(){
       if(listaTarefa[indice] == tarefa){
         listaTarefa.splice(indice, 1) 
         listaDia.splice(indice, 1)
-        listaHorario.splice(indice, 1)
+        listaHorario.splice(indice, 1)//aaaaa
       }
     }
     
