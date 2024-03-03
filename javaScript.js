@@ -40,9 +40,22 @@ function persistirTarefas() {
   localStorage.setItem("nãoConcluida", JSON.stringify(naoConcluida));
 }
 
-function recriarTela (){
-  const concluida = JSON.parse(localStorage.getItem("concluida"))
-  const concluidaNao = JSON.parse(localStorage.getItem("nãoConcluida"))
+function recriarTela() {
+  const concluida = JSON.parse(localStorage.getItem("concluida"));
+  const concluidaNao = JSON.parse(localStorage.getItem("nãoConcluida"));
+  for (let i = 0; i < concluida.length; i++) {
+    const li = document.createElement("li");
+    li.innerText = concluida[i];
+    tag.appendChild(li);
+    listaTarefa.push(li);
+  }
+  for (let i = 0; i < concluidaNao.length; i++) {
+    const li = document.createElement("li");
+    const del = document.createElement("del");
+    del.textContent = concluidaNao[i];
+    li.appendChild(del);
+    tag.appendChild(li);
+  }
 }
 
 function inserir() {
@@ -58,6 +71,7 @@ function retirar() {
   for (let i = 0; i < listaTarefa.length; i++) {
     if (listaTarefa[i].innerText == retirada) {
       listaTarefa[i].remove();
+      listaTarefa.slice(i, 1);
     }
   }
 }
